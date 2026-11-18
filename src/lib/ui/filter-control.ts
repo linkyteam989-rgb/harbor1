@@ -12,6 +12,6 @@ export function filterStateClass(active: boolean): string {
     "transition-colors duration-200 outline-none focus:outline-none",
     active
       ? "border-transparent grad-brand text-primary-foreground shadow-sm"
-      : "border-line-strong bg-card text-muted-foreground hover:border-primary/25 hover:text-foreground",
+      : "border-line-strong bg-card text-ink-2 hover:border-primary/25 hover:text-foreground",
   ].join(" ");
 }

@@ -1,25 +1,17 @@
-import { supabase } from "@/integrations/supabase/client";
 import { manualScriptRecord, type ManualTranslationInput } from "./manual-script";
 import type { Script } from "@/lib/engine/scripts";
 
 export async function translateManualScript(input: ManualTranslationInput, signal?: AbortSignal, onProgress?: (text: string) => void, id?: string): Promise<Script> {
-  const { data } = await supabase.auth.getSession();
-  if (!data.session) {
-    if (typeof window !== "undefined" && window.confirm("Para traducir con IA necesitas iniciar sesión. ¿Ir a iniciar sesión ahora?")) {
-      window.location.href = `/entrar?returnTo=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-    }
-    throw new Error("Inicia sesión para traducir con Lovable AI. Tu código no se ha cambiado.");
-  }
   const response = await fetch("/api/manual-scripts", {
     method: "POST", signal,
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${data.session.access_token}` },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "No se pudo conectar con Lovable AI." }));
+    const error = await response.json().catch(() => ({ message: "No se pudo conectar con Groq AI." }));
     throw new Error(error.message || "No se pudo traducir el script.");
   }
-  if (!response.body) throw new Error("Lovable AI no devolvió una respuesta.");
+  if (!response.body) throw new Error("Groq AI no devolvió una respuesta.");
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";

@@ -29,6 +29,6 @@ export function bindManualCode(code: string, entityId: string, scriptId: string)
 
 export function manualScriptRecord(code: string, source: string, explanation: string, id = crypto.randomUUID()): Script {
   return { id, event: "onUpdate", blocks: [], customLanguageCode: source,
-    languageName: "Lovable AI", aiExplanation: explanation,
+    languageName: "Groq AI", aiExplanation: explanation,
     compiledJs: "// ASTERNAL_MANUAL_V2\n" + validateManualCode(code) };
 }
